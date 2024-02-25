@@ -27,9 +27,43 @@ const resolvers={
         },
         game(_,args){
             return db.games.find((game)=>game.id===args.id)
+        },
+        author(_, args) {
+            return db.authors.find((author) => author.id === args.id)
+        }
+    },
+    Game:{
+        reviews(parent){
+            return db.reviews.filter((r)=>r.game_id===parent.id)
+        }
+    },
+    Author:{
+        reviews(parent){
+            return db.reviews.filter((r)=>r.author_id===parent.id)
+            
+        }
+    },
+    Review:{
+        author(parent){
+            return db.authors.find((a)=>a.id===parent.author_id);
+        },
+        game(parent){
+            return db.games.find((a)=>a.id===parent.author_id);
         }
     }
 }
+
+
+// after making relation with database
+// query GameQuery{
+    // game(id:$id){
+        // title,
+        // reviews{
+        //     rating,
+        //     content
+        // }
+    // }
+// }
 
 
 // server setup
